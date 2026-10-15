@@ -87,6 +87,7 @@ const temperature = document.querySelector("#temp");
 const notFound = document.querySelector(".not-found");
 const weatherDesc = document.querySelector(".weather-desc");
 const weatherImg = document.querySelector(".weather-img");
+const loading = document.querySelector(".loading");
 
 
 searchInput.addEventListener("keydown", (e) => {
@@ -98,19 +99,22 @@ searchInput.addEventListener("keydown", (e) => {
 
 searchButton.addEventListener("click", async () => {
    if(searchInput.value.length) {
+     loading.style.display = "block";
      const weather = await getWeather(searchInput.value);
      if(weather) {
             const info = weatherDetailsMap[weather.weatherCode];
-            weatherDetails.style.display = "block";
             notFound.style.display="none";
+            weatherDetails.style.display = "block";
             weatherDesc.innerHTML = info.description;
             weatherImg.src = info.image;
             windSpeed.innerHTML = `${weather.windSpeed} ${weather.windspeedUnit}`;
             humidityPercentage.innerHTML = `${weather.humidity} ${weather.humidityUnit}`;
             temperature.innerHTML = `${weather.temperature} ${weather.temperatureUnit}`;
+            loading.style.display = "none";
       } else {
-           notFound.style.display="flex"; 
-           weatherDetails.style.display="none";
+          weatherDetails.style.display="none";
+          loading.style.display = "none";
+          notFound.style.display="flex"; 
 
       }
       
